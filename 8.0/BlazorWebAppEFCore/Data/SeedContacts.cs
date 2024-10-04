@@ -1,10 +1,10 @@
-﻿namespace BlazorWebAppEFCore.Data;
+namespace BlazorWebAppEFCore.Data;
 
 // Generates desired number of random contacts.
 public class SeedContacts
 {
     // Use these to make names.
-    private readonly string[] _gems = new[] {
+    private readonly string[] gems = [
         "Diamond",
         "Crystal",
         "Morion",
@@ -32,11 +32,11 @@ public class SeedContacts
         "Ruby",
         "Amethyst",
         "Violet",
-        "Lilac"};
+        "Lilac"];
 
     // Combined with things for last names.
-    private readonly string[] _colors = new[]
-    {
+    private readonly string[] colors =
+    [
         "Blue",
         "Aqua",
         "Red",
@@ -54,11 +54,11 @@ public class SeedContacts
         "Gold",
         "Pink",
         "Lavender"
-    };
+    ];
 
     // Also helpful for names.
-    private readonly string[] _things = new[]
-    {
+    private readonly string[] things =
+    [
         "beard",
         "finger",
         "hand",
@@ -73,11 +73,11 @@ public class SeedContacts
         "lake",
         "stone",
         "ship"
-    };
+    ];
 
     // Street names.
-    private readonly string[] _streets = new[]
-    {
+    private readonly string[] streets =
+    [
         "Broad",
         "Wide",
         "Main",
@@ -86,22 +86,22 @@ public class SeedContacts
         "Poplar",
         "First",
         "Third",
-    };
+    ];
 
     // Types of streets.
-    private readonly string[] _streetTypes = new[]
-    {
+    private readonly string[] streetTypes =
+    [
         "Street",
         "Lane",
         "Place",
         "Terrace",
         "Drive",
         "Way"
-    };
+    ];
 
     // More uniqueness.
-    private readonly string[] _directions = new[]
-    {
+    private readonly string[] directions =
+    [
         "N",
         "NE",
         "E",
@@ -110,11 +110,11 @@ public class SeedContacts
         "SW",
         "W",
         "NW"
-    };
+    ];
 
     // A sampling of cities.
-    private readonly string[] _cities = new[]
-    {
+    private readonly string[] cities =
+    [
         "Austin",
         "Denver",
         "Fayetteville",
@@ -133,26 +133,24 @@ public class SeedContacts
         "Spokane",
         "Bellevue",
         "Seattle"
-    };
+    ];
 
     // State list.
-    private readonly string[] _states = new[]
-    {
+    private readonly string[] states =
+    [
         "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL",
         "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA",
         "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE",
         "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK",
         "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT",
         "VA", "WA", "WV", "WI", "WY"
-    };
-
-    private readonly Random _random = new();
+    ];
 
     // Picks a random item from a list.
     // list: A list of string to parse.
-    private string RandomOne(string[] list)
+    private static string RandomOne(string[] list)
     {
-        var idx = _random.Next(list.Length - 1);
+        var idx = Random.Shared.Next(list.Length - 1);
 
         return list[idx];
     }
@@ -163,14 +161,14 @@ public class SeedContacts
     {
         var contact = new Contact
         {
-            FirstName = RandomOne(_gems),
-            LastName = $"{RandomOne(_colors)}{RandomOne(_things)}",
-            Phone = $"({_random.Next(100, 999)})-555-{_random.Next(1000, 9999)}",
-            Street = $"{_random.Next(1, 99999)} {_random.Next(1, 999)}" +
-            $" {RandomOne(_streets)} {RandomOne(_streetTypes)} {RandomOne(_directions)}",
-            City = RandomOne(_cities),
-            State = RandomOne(_states),
-            ZipCode = $"{ _random.Next(10000, 99999)}"
+            FirstName = RandomOne(gems),
+            LastName = $"{RandomOne(colors)}{RandomOne(things)}",
+            Phone = $"({Random.Shared.Next(100, 999)})-555-{Random.Shared.Next(1000, 9999)}",
+            Street = $"{Random.Shared.Next(1, 99999)} {Random.Shared.Next(1, 999)}" +
+            $" {RandomOne(streets)} {RandomOne(streetTypes)} {RandomOne(directions)}",
+            City = RandomOne(cities),
+            State = RandomOne(states),
+            ZipCode = $"{Random.Shared.Next(10000, 99999)}"
         };
 
         return contact;
@@ -190,7 +188,7 @@ public class SeedContacts
             if (list.Count > 0)
             {
                 context.Contacts?.AddRange(list);
-                await context.SaveChangesAsync();
+                _ = await context.SaveChangesAsync();
             }
             currentCycle = 0;
         }

@@ -1,5 +1,6 @@
-using BlazorWebAppEFCore.Components;
 using Microsoft.EntityFrameworkCore;
+using BlazorWebAppEFCore;
+using BlazorWebAppEFCore.Components;
 using BlazorWebAppEFCore.Data;
 using BlazorWebAppEFCore.Grid;
 
@@ -9,10 +10,10 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 // Register factory and configure the options
-#region snippet1
+// <snippet1>
 builder.Services.AddDbContextFactory<ContactContext>(opt =>
     opt.UseSqlite($"Data Source={nameof(ContactContext.ContactsDb)}.db"));
-#endregion
+// </snippet1>
 
 // Pager
 builder.Services.AddScoped<IPageHelper, PageHelper>();

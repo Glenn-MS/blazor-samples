@@ -1,4 +1,4 @@
-﻿@page "/"
+@page "/"
 @page "/{Page:int}"
 @rendermode InteractiveServer
 @using BlazorWebAppEFCore.Grid
@@ -86,7 +86,7 @@
         {
             @foreach (var contact in Contacts)
             {
-                <ContactRow @key=contact CurrentContact="@contact"
+                <ContactRow @key=contact CurrentContact="contact"
                             DeleteContact="DeleteContactAsync" />
             }
         }
@@ -144,7 +144,6 @@
                 return;
             }
         }
-        base.OnAfterRender(firstRender);
     }
 
     // Triggered for any paging update.
@@ -156,7 +155,6 @@
             _lastPage = Page;
             await ReloadAsync();
         }
-        await base.OnParametersSetAsync();
     }
 
     // Used to toggle the grid sort. Will either switch to "ascending" on a new
@@ -176,7 +174,7 @@
     }
 
     // Deletes a contact.
-    #region snippet1
+    // <snippet1>
     private async Task DeleteContactAsync()
     {
         using var context = DbFactory.CreateDbContext();
@@ -198,7 +196,7 @@
 
         await ReloadAsync();
     }
-    #endregion
+    // </snippet1>
 
     // Reload page based on filters and paging controls.
     private async Task ReloadAsync()

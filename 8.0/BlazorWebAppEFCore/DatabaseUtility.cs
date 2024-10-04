@@ -1,5 +1,7 @@
-using BlazorWebAppEFCore.Data;
 using Microsoft.EntityFrameworkCore;
+using BlazorWebAppEFCore.Data;
+
+namespace BlazorWebAppEFCore;
 
 public static class DatabaseUtility
 {
@@ -10,8 +12,7 @@ public static class DatabaseUtility
     {
         // Empty to avoid logging while inserting (otherwise will flood console).
         var factory = new LoggerFactory();
-        var builder = new DbContextOptionsBuilder<ContactContext>(options)
-            .UseLoggerFactory(factory);
+        var builder = new DbContextOptionsBuilder<ContactContext>(options).UseLoggerFactory(factory);
 
         using var context = new ContactContext(builder.Options);
         // Result is true if the database had to be created.

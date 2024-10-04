@@ -1,4 +1,4 @@
-﻿@page "/add"
+@page "/add"
 @rendermode InteractiveServer
 @using BlazorWebAppEFCore.Grid
 @inject IDbContextFactory<ContactContext> DbFactory
@@ -7,8 +7,8 @@
 
 @if (Contact is not null)
 {
-    <ContactForm Busy="@Busy" 
-                 Contact="@Contact" 
+    <ContactForm Busy="Busy" 
+                 Contact="Contact" 
                  IsAdd="true"
                  CancelRequest="Cancel"
                  ValidationResult="@(async (success) => await ValidationResultAsync(success))" />
@@ -39,10 +39,9 @@
     private string ErrorMessage = string.Empty;
 
     // Start with fresh Contact.
-    protected override Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         Contact = new();
-        return base.OnInitializedAsync();
     }
 
     // Respond to a forms submission.
@@ -90,8 +89,5 @@
     }
 
     // Back to list.
-    private void Cancel()
-    {
-        Navigation.NavigateTo($"/{PageHelper.Page}");
-    }
+    private void Cancel() => Navigation.NavigateTo($"/{PageHelper.Page}");
 }
