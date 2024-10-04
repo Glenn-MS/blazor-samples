@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: [self-hosted, managed-devops-pool]
+    runs-on: [self-hosted, ManagedDevOpsPool-WE]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
