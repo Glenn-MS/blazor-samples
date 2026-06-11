@@ -29,6 +29,16 @@ To obtain a local copy of the sample apps in this repository, use ***either*** o
 * Call a web API (`BlazorWebAppCallWebApi`/`BlazorWebAssemblyCallWebApi`): [Call a web API from ASP.NET Core Blazor](https://learn.microsoft.com/aspnet/core/blazor/call-web-api)
 * .NET MAUI Blazor Hybrid app with a Blazor Web App and a shared UI RCL: [Build a .NET MAUI Blazor Hybrid app with a Blazor Web App](https://learn.microsoft.com/aspnet/core/blazor/hybrid/tutorials/maui-blazor-web-app)
 
+## Available .NET versions
+
+Sample apps are available for the following .NET versions:
+
+* .NET 8.0 (`8.0` folder)
+* .NET 7.0 (`7.0` folder)
+* .NET 6.0 (`6.0` folder)
+* .NET 5.0 (`5.0` folder)
+* .NET Core 3.1 (`3.1` folder)
+
 ## Snippet sample apps for article code examples
 
 **WARNING**: Always follow an article's security guidance when implementing sample code.
