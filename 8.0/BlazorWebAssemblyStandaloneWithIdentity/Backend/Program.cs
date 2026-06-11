@@ -53,7 +53,7 @@ builder.Services.AddCors(
             .AllowAnyHeader()
             .AllowCredentials()));
 
-// add services to the container
+// Add Endpoints API Explorer
 builder.Services.AddEndpointsApiExplorer();
 
 // add NSwag services
@@ -137,11 +137,6 @@ app.MapPost("/data-processing-2", ([FromBody] FormModel model) =>
         .RequireAuthorization(policy => policy.RequireRole("Manager"));
 
 app.Run();
-
-// Identity user
-class AppUser : IdentityUser
-{
-}
 
 // Identity database
 class AppDbContext(DbContextOptions<AppDbContext> options) : IdentityDbContext<AppUser>(options)

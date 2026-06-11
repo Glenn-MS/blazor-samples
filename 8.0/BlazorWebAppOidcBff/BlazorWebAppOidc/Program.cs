@@ -42,16 +42,7 @@ builder.Services.AddAuthentication(MS_OIDC_SCHEME)
         // ........................................................................
         // The following paths must match the redirect and post logout redirect 
         // paths configured when registering the application with the OIDC provider. 
-        // For Microsoft Entra ID, this is accomplished through the "Authentication" 
-        // blade of the application's registration in the Azure portal. Both the
-        // signin and signout paths must be registered as Redirect URIs. The default 
-        // values are "/signin-oidc" and "/signout-callback-oidc".
-        // Microsoft Identity currently only redirects back to the 
-        // SignedOutCallbackPath if authority is 
-        // https://login.microsoftonline.com/{TENANT ID}/v2.0/ as it is below. 
-        // You can use the "common" authority instead, and logout redirects back to 
-        // the Blazor app. For more information, see 
-        // https://github.com/AzureAD/microsoft-authentication-library-for-js/issues/5783
+        // The default values are "/signin-oidc" and "/signout-callback-oidc".
 
         //oidcOptions.CallbackPath = new PathString("/signin-oidc");
         //oidcOptions.SignedOutCallbackPath = new PathString("/signout-callback-oidc");
@@ -65,17 +56,13 @@ builder.Services.AddAuthentication(MS_OIDC_SCHEME)
         // ........................................................................
 
         // ........................................................................
-        // The "Weather.Get" scope is configured in the Azure or Entra portal under 
-        // "Expose an API". This is necessary for backend web API (MinimalApiJwt)
-        // to validate the access token with AddBearerJwt. The following code example
-        // uses a scope format of the App ID URI for an AAD B2C tenant type. If your
-        // tenant is an ME-ID tenant, the App ID URI format is different:
-        // api://{CLIENT ID}, so the full scope with an API name of "Weather.Get" is:
-        // api://{CLIENT ID}/Weather.Get
-        // The {CLIENT ID} is the application (client) ID of the MinimalApiJwt app 
-        // registration.
+        // The "Weather.Get" scope for accessing the external web API for weather
+        // data. The following example is based on using Microsoft Entra ID in 
+        // an ME-ID tenant domain (the {APP ID URI} placeholder is found in
+        // the Entra or Azure portal where the web API is exposed). For any other
+        // identity provider, use the appropriate scope.
 
-        oidcOptions.Scope.Add("https://{DIRECTORY NAME}.onmicrosoft.com/{CLIENT ID}/Weather.Get");
+        oidcOptions.Scope.Add("{APP ID URI}/Weather.Get");
         // ........................................................................
 
         // ........................................................................
@@ -95,18 +82,6 @@ builder.Services.AddAuthentication(MS_OIDC_SCHEME)
         // the Client ID.
 
         oidcOptions.ClientId = "{CLIENT ID}";
-        // ........................................................................
-        
-        // ........................................................................
-        // ClientSecret shouldn't be compiled into the application assembly or 
-        // checked into source control. Adopt User Secrets, Azure KeyVault, 
-        // or an environment variable to supply the value. Authentication scheme 
-        // configuration is automatically read from 
-        // "Authentication:Schemes:{SchemeName}:{PropertyName}", so ClientSecret is 
-        // for OIDC configuration is automatically read from 
-        // "Authentication:Schemes:MicrosoftOidc:ClientSecret" configuration.
-
-        //oidcOptions.ClientSecret = "{PREFER NOT SETTING THIS HERE}";
         // ........................................................................
 
         // ........................................................................
@@ -143,7 +118,7 @@ builder.Services.AddAuthentication(MS_OIDC_SCHEME)
         // ........................................................................
 
         // ........................................................................
-        // OIDC connect options set later via ConfigureCookieOidcRefresh
+        // OIDC connect options set later via ConfigureCookieOidc
         //
         // (1) The "offline_access" scope is required for the refresh token.
         //
@@ -156,12 +131,12 @@ builder.Services.AddAuthentication(MS_OIDC_SCHEME)
     })
     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
 
-// ConfigureCookieOidcRefresh attaches a cookie OnValidatePrincipal callback to get
+// ConfigureCookieOidc attaches a cookie OnValidatePrincipal callback to get
 // a new access token when the current one expires, and reissue a cookie with the
 // new access token saved inside. If the refresh fails, the user will be signed
 // out. OIDC connect options are set for saving tokens and the offline access
 // scope.
-builder.Services.ConfigureCookieOidcRefresh(CookieAuthenticationDefaults.AuthenticationScheme, MS_OIDC_SCHEME);
+builder.Services.ConfigureCookieOidc(CookieAuthenticationDefaults.AuthenticationScheme, MS_OIDC_SCHEME);
 
 builder.Services.AddAuthorization();
 
