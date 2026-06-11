@@ -34,12 +34,24 @@
     {
         if (mapInstance is not null)
         {
-            await mapInstance.DisposeAsync();
+            try
+            {
+                await mapInstance.DisposeAsync();
+            }
+            catch
+            {
+            }
         }
 
         if (mapModule is not null)
         {
-            await mapModule.DisposeAsync();
+            try
+            {
+                await mapModule.DisposeAsync();
+            }
+            catch
+            {
+            }
         }
     }
 }

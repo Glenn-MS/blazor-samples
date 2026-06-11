@@ -6,20 +6,46 @@ builder.AddServiceDefaults();
 builder.Services.AddAuthentication()
     .AddJwtBearer("Bearer", jwtOptions =>
     {
-        // The following should match the authority configured for the OIDC handler in BlazorWebAppOidc/Program.cs.
-        // {TENANT ID} is the directory (tenant) ID. If using an ME-ID tenant type, the authority should match
-        // the issurer (`iss`) of the JWT returned by the identity provider:
-        // https://sts.windows.net/{TENANT ID}/
-        jwtOptions.Authority = "https://login.microsoftonline.com/{TENANT ID}/v2.0/";
+        // {TENANT ID} is the directory (tenant) ID.
+        //
+        // Authority format {AUTHORITY} matches the issurer (`iss`) of the JWT returned by the identity provider.
+        //
+        // Authority format {AUTHORITY} for ME-ID tenant type (V1 STS token): https://sts.windows.net/{TENANT ID}/
+        // Authority format {AUTHORITY} for ME External ID tenant type: https://{DIRECTORY NAME}.ciamlogin.com/{TENANT ID}/v2.0
+        // Authority format {AUTHORITY} for B2C tenant type: https://login.microsoftonline.com/{TENANT ID}/v2.0
+        // The format of the authority URL depends on the tenant type and the version of the tokens issued by the identity provider.
+        // For guidance on adopting V2 tokens and the corresponding authority URL format, see the article.
+        //
+        jwtOptions.Authority = "{AUTHORITY}";
+        //
         // The following should match just the path of the Application ID URI configured when adding the "Weather.Get" scope
         // under "Expose an API" in the Azure or Entra portal. {CLIENT ID} is the application (client) ID of this 
-        // app's registration in the Azure portal. If using an ME-ID tenant type, the format of the App ID URI is:
-        // api://{CLIENT ID}
-        jwtOptions.Audience = "https://{DIRECTORY NAME}.onmicrosoft.com/{CLIENT ID}";
+        // app's registration in the Azure portal.
+        // 
+        // Audience format {AUDIENCE} for ME-ID tenant type: api://{CLIENT ID (WEB API APP)}
+        // Audience format {AUDIENCE} for ME External ID tenant type: {CLIENT ID (WEB API APP)}
+        // Audience format {AUDIENCE} for B2C tenant type: https://{DIRECTORY NAME}.onmicrosoft.com/{CLIENT ID (WEB API APP)}
+        //
+        jwtOptions.Audience = "{AUDIENCE}";
     });
+
 builder.Services.AddAuthorization();
 
+// Add OpenApi 
+builder.Services.AddOpenApi();
+
 var app = builder.Build();
+
+// Configure Swagger UI
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/openapi/v1.json", "v1");
+    });
+}
 
 // Configure the HTTP request pipeline.
 app.UseHttpsRedirection();

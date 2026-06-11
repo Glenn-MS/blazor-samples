@@ -1,7 +1,7 @@
 public class TimerService : IDisposable
 {
     private int elapsedCount;
-    private readonly static TimeSpan heartbeatTickRate = TimeSpan.FromSeconds(5);
+    private static readonly TimeSpan heartbeatTickRate = TimeSpan.FromSeconds(5);
     private readonly ILogger<TimerService> logger;
     private readonly NotifierService notifier;
     private PeriodicTimer? timer;
@@ -26,7 +26,7 @@ public class TimerService : IDisposable
                 {
                     elapsedCount += 1;
                     await notifier.Update("elapsedCount", elapsedCount);
-                    logger.LogInformation($"elapsedCount: {elapsedCount}");
+                    logger.LogInformation("elapsedCount: {ElapsedCount}", elapsedCount);
                 }
             }
         }
