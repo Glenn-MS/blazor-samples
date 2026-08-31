@@ -82,6 +82,16 @@ git sparse-checkout set 10.0/BlazorSample_BlazorWebApp
 
 * .NET WebAssembly + React (`DotNetWebAssemblyReact`)<br>[Host and deploy: JavaScript bundler support](https://learn.microsoft.com/aspnet/core/blazor/host-and-deploy/#javascript-bundler-support)
 
+## Available .NET versions
+
+Sample apps are available for the following .NET versions:
+
+* .NET 8.0 (`8.0` folder)
+* .NET 7.0 (`7.0` folder)
+* .NET 6.0 (`6.0` folder)
+* .NET 5.0 (`5.0` folder)
+* .NET Core 3.1 (`3.1` folder)
+
 ## Snippet sample apps for article code examples
 
 **WARNING**: Always follow an article's security guidance when implementing sample code.
